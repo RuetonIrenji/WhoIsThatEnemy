@@ -27,18 +27,25 @@ String KEY="?api_key=";
             JSONObject champDto1=(JSONObject) champDataMap.get(champKeys[i]);
             String champId1= champDto1.get("id").toString();
             JSONObject Champs= new JSONObject();
-            Lane.put(champId1,Champs);
             for(int j=0;j<champDataMap.size();j++){
                 if(j==i){continue;}
                 //get the id. Number 2 is related to enemy champ
                 JSONObject champDto2=(JSONObject) champDataMap.get(champKeys[j]);
                 String champId2= champDto2.get("id").toString();
                 JSONObject enemyChamps= new JSONObject();
-                Champs.put(champId2, enemyChamps);  
-                JSONArray money= new JSONArray();
-                JSONArray cs= new JSONArray();
+                 JSONArray money= new JSONArray();
+                JSONArray cs= new JSONArray();                
                 enemyChamps.put("money per min", money);
                 enemyChamps.put("cs per min", cs);
+                //add here the new values:
+                //example: 
+                //JSONArray example= new JSONArray;
+                //enemyChamps.put("example",example); Remember to change the filler code too.
+                
+                
+                //
+                Champs.put(champId2, enemyChamps);  
+                Lane.put(champId1,Champs);
                 //when refill the database enemyChamps.put(stat,value);
             }
         }
@@ -54,5 +61,41 @@ public Map champMap() throws MalformedURLException, IOException, ParseException{
         Map<String,JSONObject> champDataMap=(JSONObject) champData.get("Data");
     return champDataMap;
     }
+public Map champNamebyId() throws IOException, MalformedURLException, ParseException{
+    Map<String,JSONObject> champDataMap= this.champMap();
+   int numChamp= champDataMap.size();
+   Set<String> champNamesSet=champDataMap.keySet();
+   String[] champNames= champNamesSet.toArray(new String[champNamesSet.size()]);
+   Map<String,String> champIdMap=null;
+   for(int i=0;i<numChamp;i++){
+     JSONObject championDto=(JSONObject) champDataMap.get(champNames[i]);
+       champIdMap.put(championDto.get("id").toString(), champNames[i].toString());
+           }
+   return champIdMap;
+}
+public JSONObject createDatabaseJungle() throws IOException, MalformedURLException, ParseException{
+Map<String,JSONObject> champDataMap=this.champMap();
+        Set<String> champKeysSet=champDataMap.keySet();
+        String[] champKeys=champKeysSet.toArray(new String[champDataMap.size()]);
+        JSONObject jungleLane= new JSONObject();
+        JSONObject champs= new JSONObject();
+        JSONArray money= new JSONArray();
+        JSONArray cs= new JSONArray();  
+        champs.put("money per min", money);
+        champs.put("cs per min", cs);
+           //add here the new values:
+                //example: 
+                //JSONArray example= new JSONArray;
+                //enemyChamps.put("example",example); Remember to change the filler code too.
+                
+                
+                //
+        for(int i=0;i<champDataMap.size();i++){
+        String champName= champKeys[i];
+        jungleLane.put(champName, champs);
+                }
+        return jungleLane;
+        
+}
 }
 
