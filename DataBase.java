@@ -21,7 +21,8 @@ import org.json.simple.parser.ParseException;
 public class DataBase {
 
     String KEY = "?api_key=";
-     public class variables {
+
+    public class variables {
 //variables get from the match for lanes (JUNGLE NOT INCLUDED)
 
         int creepsperminblue;//cs per min blue top
@@ -164,13 +165,65 @@ public class DataBase {
                         break;
                 }
             }
+            //now we get the map of all names using the id as key to fill the data base.
+        Map<String, String> champbyid = this.champNamebyId();
+       
+        
+            for (Object topblue : all.topblue) {
+                //adding top blue lane
+                variables lane = (variables) topblue;
+                calculus lanecalculus=new calculus(lane);
+                statement.execute("insert into apilol.toplane(matchid,champid,enemychampid,gold,creeps,matchwinner,ratiogold,ratiocreeps,totalgold,"
+                        + "totalcreeps,totalratio, lanewinner,champ, enemychamp) values ('"+matchid+"','"+lane.blueidchamp+"','"+lane.redidchamp+"','"+lane.goldperminblue+"',"
+                        + "'"+lane.matchwinnerblue+"','"+lanecalculus.ratiogoldblue+"','"+lanecalculus.ratiocsblue+"','"+lanecalculus.totalgold+"',"
+                        + "'"+lanecalculus.totalcs+"','"+lanecalculus.ratiolaneblue+"','"+lanecalculus.lanewinnerblue+"','"+champbyid.get(lane.blueidchamp)+"','"+champbyid.get(lane.redidchamp)+"'");
+            }
+            for (Object topred : all.topred) {
+                //adding top red lane
+                variables lane = (variables) topred;
+                calculus lanecalculus=new calculus(lane);
+                statement.execute("insert into apilol.toplane(matchid,champid,enemychampid,gold,creeps,matchwinner,ratiogold,ratiocreeps,totalgold,"
+                        + "totalcreeps,totalratio, lanewinner,champ, enemychamp) values ('"+matchid+"','"+lane.redidchamp+"','"+lane.blueidchamp+"','"+lane.goldperminred+"',"
+                        + "'"+lane.winnermatchred+"','"+lanecalculus.ratiogoldred+"','"+lanecalculus.ratiocsred+"','"+lanecalculus.totalgold+"',"
+                        + "'"+lanecalculus.totalcs+"','"+lanecalculus.ratiolanered+"','"+lanecalculus.lanewinnerred+"','"+champbyid.get(lane.redidchamp)+"','"+champbyid.get(lane.blueidchamp)+"'");
+            }
+            for (Object midblue : all.midblue) {
+                //adding mid blue lane
+                variables lane = (variables) midblue;
+                calculus lanecalculus=new calculus(lane);
+                statement.execute("insert into apilol.toplane(matchid,champid,enemychampid,gold,creeps,matchwinner,ratiogold,ratiocreeps,totalgold,"
+                        + "totalcreeps,totalratio, lanewinner,champ, enemychamp) values ('"+matchid+"','"+lane.blueidchamp+"','"+lane.redidchamp+"','"+lane.goldperminblue+"',"
+                        + "'"+lane.matchwinnerblue+"','"+lanecalculus.ratiogoldblue+"','"+lanecalculus.ratiocsblue+"','"+lanecalculus.totalgold+"',"
+                        + "'"+lanecalculus.totalcs+"','"+lanecalculus.ratiolaneblue+"','"+lanecalculus.lanewinnerblue+"','"+champbyid.get(lane.blueidchamp)+"','"+champbyid.get(lane.redidchamp)+"'");
+            }
+             for (Object midred : all.midred) {
+                //adding mid red lane
+                variables lane = (variables) midred;
+                calculus lanecalculus=new calculus(lane);
+                statement.execute("insert into apilol.toplane(matchid,champid,enemychampid,gold,creeps,matchwinner,ratiogold,ratiocreeps,totalgold,"
+                        + "totalcreeps,totalratio, lanewinner,champ, enemychamp) values ('"+matchid+"','"+lane.redidchamp+"','"+lane.blueidchamp+"','"+lane.goldperminred+"',"
+                        + "'"+lane.winnermatchred+"','"+lanecalculus.ratiogoldred+"','"+lanecalculus.ratiocsred+"','"+lanecalculus.totalgold+"',"
+                        + "'"+lanecalculus.totalcs+"','"+lanecalculus.ratiolanered+"','"+lanecalculus.lanewinnerred+"','"+champbyid.get(lane.redidchamp)+"','"+champbyid.get(lane.blueidchamp)+"'");
+            }
+             for (Object botblue : all.botblue) {
+                //adding bot blue lane
+                variables lane = (variables) botblue;
+                calculus lanecalculus=new calculus(lane);
+                statement.execute("insert into apilol.toplane(matchid,champid,enemychampid,gold,creeps,matchwinner,ratiogold,ratiocreeps,totalgold,"
+                        + "totalcreeps,totalratio, lanewinner,champ, enemychamp) values ('"+matchid+"','"+lane.blueidchamp+"','"+lane.redidchamp+"','"+lane.goldperminblue+"',"
+                        + "'"+lane.matchwinnerblue+"','"+lanecalculus.ratiogoldblue+"','"+lanecalculus.ratiocsblue+"','"+lanecalculus.totalgold+"',"
+                        + "'"+lanecalculus.totalcs+"','"+lanecalculus.ratiolaneblue+"','"+lanecalculus.lanewinnerblue+"','"+champbyid.get(lane.blueidchamp)+"','"+champbyid.get(lane.redidchamp)+"'");
+            }
+               for (Object botred : all.botred) {
+                //adding bot red lane
+                variables lane = (variables) botred;
+                calculus lanecalculus=new calculus(lane);
+                statement.execute("insert into apilol.toplane(matchid,champ,enemychamp,gold,creeps,matchwinner,ratiogold,ratiocreeps,totalgold,"
+                        + "totalcreeps,totalratio, lanewinner,champ, enemychamp) values ('"+matchid+"','"+lane.redidchamp+"','"+lane.blueidchamp+"','"+lane.goldperminred+"',"
+                        + "'"+lane.winnermatchred+"','"+lanecalculus.ratiogoldred+"','"+lanecalculus.ratiocsred+"','"+lanecalculus.totalgold+"',"
+                        + "'"+lanecalculus.totalcs+"','"+lanecalculus.ratiolanered+"','"+lanecalculus.lanewinnerred+"','"+champbyid.get(lane.redidchamp)+"','"+champbyid.get(lane.blueidchamp)+"'");
+            }
         }
-//adding data to mysql remains.
-//now we get the string with all champ names by getting a MAP which keys are the champ names and the values are them inf.;
-        Map<String, JSONObject> champDataMap = this.champMap();//
-        Set<String> champKeysSet = champDataMap.keySet();
-        String[] champKeys = champKeysSet.toArray(new String[champDataMap.size()]);
-
         statement.close();
         connection.close();
     }
